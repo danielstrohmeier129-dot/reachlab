@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Social Media Mastery – Das komplette Handbuch</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0908;
+  --bg2: #110f0d;
+  --surface: #181410;
+  --border: #2a2420;
+  --gold: #c8a84b;
+  --gold2: #e8d5a0;
+  --gold3: #8a6e28;
+  --text: #f0ebe2;
+  --muted: #7a6e60;
+  --rust: #c4522a;
+  --white: #faf8f4;
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Syne', sans-serif;
+  font-weight: 400;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* CUSTOM CURSOR */
+.cursor {
+  position: fixed;
+  width: 8px; height: 8px;
+  background: var(--gold);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transition: transform 0.15s ease;
+  mix-blend-mode: difference;
+}
+.cursor-ring {
+  position: fixed;
+  width: 32px; height: 32px;
+  border: 1px solid var(--gold);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transition: all 0.3s ease;
+  opacity: 0.5;
+}
+
+/* NOISE OVERLAY */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 100;
+  opacity: 0.4;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 1.25rem 3rem;
+  border-bottom: 1px solid transparent;
+  transition: all 0.4s ease;
+}
+nav.scrolled {
+  background: rgba(10,9,8,0.92);
+  border-color: var(--border);
+  backdrop-filter: blur(12px);
+}
+.nav-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  color: var(--gold);
+  text-transform: uppercase;
+}
+.nav-cta {
+  background: var(--gold);
+  color: var(--bg);
+  font-family: 'Syne', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 0.6rem 1.5rem;
+  border: none;
+  cursor: none;
+  transition: all 0.2s ease;
+}
+.nav-cta:hover { background: var(--gold2); }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 8rem 3rem 5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 80% 60% at 70% 50%, rgba(200,168,75,0.07) 0%, transparent 70%),
+              radial-gradient(ellipse 50% 80% at 10% 80%, rgba(196,82,42,0.05) 0%, transparent 60%);
+}
+
+.hero-lines {
+  position: absolute; inset: 0; overflow: hidden; pointer-events: none;
+}
+.hero-lines span {
+  position: absolute;
+  left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border) 30%, var(--border) 70%, transparent);
+  animation: slideLine 12s linear infinite;
+  opacity: 0;
+}
+.hero-lines span:nth-child(1) { top: 22%; animation-delay: 0s; }
+.hero-lines span:nth-child(2) { top: 44%; animation-delay: 3s; }
+.hero-lines span:nth-child(3) { top: 66%; animation-delay: 6s; }
+.hero-lines span:nth-child(4) { top: 88%; animation-delay: 9s; }
+
+@keyframes slideLine {
+  0% { opacity: 0; transform: scaleX(0); transform-origin: left; }
+  20% { opacity: 1; transform: scaleX(1); }
+  80% { opacity: 1; transform: scaleX(1); }
+  100% { opacity: 0; transform: scaleX(0); transform-origin: right; }
+}
+
+.hero-content { position: relative; z-index: 2; max-width: 900px; }
+
+.hero-kicker {
+  display: inline-flex; align-items: center; gap: 0.75rem;
+  font-size: 0.65rem; font-weight: 600; letter-spacing: 0.35em;
+  text-transform: uppercase; color: var(--gold);
+  margin-bottom: 2.5rem;
+  animation: fadeUp 0.8s ease both;
+}
+.hero-kicker::before {
+  content: ''; display: block;
+  width: 40px; height: 1px; background: var(--gold);
+}
+
+.hero-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(4rem, 10vw, 9rem);
+  font-weight: 300;
+  line-height: 0.88;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.5rem;
+  animation: fadeUp 0.8s 0.1s ease both;
+}
+.hero-title em {
+  font-style: italic;
+  color: var(--gold);
+}
+.hero-title .outline {
+  -webkit-text-stroke: 1px rgba(200,168,75,0.4);
+  color: transparent;
+}
+
+.hero-subtitle {
+  font-size: 1.05rem;
+  font-weight: 400;
+  color: var(--muted);
+  max-width: 540px;
+  line-height: 1.7;
+  margin: 2rem 0 3rem;
+  animation: fadeUp 0.8s 0.2s ease both;
+}
+
+.hero-actions {
+  display: flex; align-items: center; gap: 2rem; flex-wrap: wrap;
+  animation: fadeUp 0.8s 0.3s ease both;
+}
+
+.btn-primary {
+  position: relative;
+  display: inline-flex; align-items: center; gap: 0.75rem;
+  background: var(--gold);
+  color: var(--bg);
+  font-family: 'Syne', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 1.1rem 2.5rem;
+  border: none;
+  cursor: none;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+.btn-primary::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: var(--gold2);
+  transform: translateX(-101%);
+  transition: transform 0.3s ease;
+}
+.btn-primary:hover::after { transform: translateX(0); }
+.btn-primary span { position: relative; z-index: 1; }
+.btn-primary .arrow { font-size: 1rem; transition: transform 0.3s ease; }
+.btn-primary:hover .arrow { transform: translateX(4px); }
+
+.hero-price {
+  display: flex; flex-direction: column;
+}
+.price-old {
+  font-size: 0.75rem; color: var(--muted);
+  text-decoration: line-through; letter-spacing: 0.1em;
+}
+.price-new {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.2rem; font-weight: 600;
+  color: var(--gold);
+  line-height: 1;
+}
+.price-note {
+  font-size: 0.6rem; color: var(--muted);
+  letter-spacing: 0.1em; text-transform: uppercase;
+}
+
+.hero-scroll {
+  position: absolute; bottom: 2.5rem; left: 50%;
+  transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+  font-size: 0.55rem; letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--muted);
+  animation: fadeUp 1s 0.8s ease both;
+}
+.scroll-line {
+  width: 1px; height: 40px;
+  background: linear-gradient(to bottom, var(--gold), transparent);
+  animation: scrollPulse 2s ease infinite;
+}
+@keyframes scrollPulse {
+  0%, 100% { opacity: 0.4; transform: scaleY(1); }
+  50% { opacity: 1; transform: scaleY(1.2); }
+}
+
+/* ── SOCIAL PROOF ── */
+.social-proof {
+  padding: 2rem 3rem;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  gap: 4rem; flex-wrap: wrap;
+  background: var(--surface);
+}
+.proof-item {
+  display: flex; align-items: center; gap: 1rem;
+  font-size: 0.7rem; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--muted);
+}
+.proof-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2rem; font-weight: 600;
+  color: var(--gold); line-height: 1;
+}
+
+/* ── SECTION DEFAULTS ── */
+section { padding: 7rem 3rem; }
+
+.section-label {
+  display: inline-flex; align-items: center; gap: 0.75rem;
+  font-size: 0.6rem; font-weight: 600; letter-spacing: 0.4em;
+  text-transform: uppercase; color: var(--gold);
+  margin-bottom: 1.5rem;
+}
+.section-label::before {
+  content: ''; width: 30px; height: 1px; background: var(--gold);
+}
+
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 300; line-height: 1.1;
+  margin-bottom: 1.5rem;
+}
+.section-title em { font-style: italic; color: var(--gold); }
+
+/* ── WHAT'S INSIDE ── */
+.inside { background: var(--bg2); }
+.inside-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  margin-top: 4rem;
+}
+.inside-card {
+  background: var(--surface);
+  padding: 2.5rem 2rem;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.3s ease;
+}
+.inside-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  transform: scaleX(0);
+  transition: transform 0.4s ease;
+}
+.inside-card:hover { background: #1c1712; }
+.inside-card:hover::before { transform: scaleX(1); }
+
+.card-ch {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 3.5rem; font-weight: 300;
+  color: var(--border); line-height: 1;
+  position: absolute; top: 1.5rem; right: 1.5rem;
+  transition: color 0.3s ease;
+}
+.inside-card:hover .card-ch { color: rgba(200,168,75,0.15); }
+
+.card-tag {
+  display: inline-block;
+  font-size: 0.55rem; font-weight: 600;
+  letter-spacing: 0.25em; text-transform: uppercase;
+  color: var(--bg); background: var(--gold);
+  padding: 0.3rem 0.7rem;
+  margin-bottom: 1.25rem;
+}
+.card-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.5rem; font-weight: 600;
+  line-height: 1.2; margin-bottom: 0.75rem;
+}
+.card-desc {
+  font-size: 0.82rem; color: var(--muted);
+  line-height: 1.7;
+}
+
+/* ── FOR WHO ── */
+.forwho-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 2rem; margin-top: 4rem;
+}
+.forwho-col { }
+.forwho-head {
+  display: flex; align-items: center; gap: 1rem;
+  font-size: 0.7rem; font-weight: 600; letter-spacing: 0.25em;
+  text-transform: uppercase; padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 1.5rem;
+}
+.check { color: var(--gold); font-size: 1rem; }
+.cross { color: var(--rust); font-size: 1rem; }
+
+.forwho-item {
+  display: flex; align-items: flex-start; gap: 1rem;
+  padding: 0.8rem 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.85rem; color: var(--muted); line-height: 1.5;
+}
+.forwho-item:last-child { border-bottom: none; }
+
+/* ── TESTIMONIALS ── */
+.testimonials { background: var(--bg2); }
+.test-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem; margin-top: 4rem;
+}
+.test-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 2rem;
+  position: relative;
+}
+.test-quote {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 3rem; line-height: 1;
+  color: var(--gold); opacity: 0.3;
+  margin-bottom: 0.5rem;
+}
+.test-text {
+  font-size: 0.88rem; line-height: 1.7;
+  color: var(--text); margin-bottom: 1.5rem;
+  font-style: italic;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+}
+.test-author {
+  display: flex; align-items: center; gap: 1rem;
+}
+.test-avatar {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--gold3), var(--gold));
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 0.8rem; color: var(--bg);
+}
+.test-name { font-size: 0.8rem; font-weight: 600; }
+.test-handle { font-size: 0.7rem; color: var(--muted); }
+.test-stars { color: var(--gold); font-size: 0.7rem; margin-bottom: 0.2rem; }
+
+/* ── CTA SECTION ── */
+.cta-section {
+  text-align: center;
+  padding: 8rem 3rem;
+  position: relative;
+  overflow: hidden;
+}
+.cta-bg {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 70% 50% at 50% 50%, rgba(200,168,75,0.08) 0%, transparent 70%);
+}
+.cta-section .section-label { justify-content: center; }
+.cta-section .section-label::before { display: none; }
+.cta-section .section-title { max-width: 700px; margin: 0 auto 1.5rem; }
+
+.guarantee {
+  display: inline-flex; align-items: center; gap: 0.75rem;
+  margin-top: 2rem;
+  font-size: 0.75rem; color: var(--muted);
+  letter-spacing: 0.05em;
+}
+.guarantee-icon { font-size: 1.2rem; }
+
+/* ── FAQ ── */
+.faq-list { max-width: 720px; margin: 3rem auto 0; }
+.faq-item {
+  border-bottom: 1px solid var(--border);
+  overflow: hidden;
+}
+.faq-q {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 1.5rem 0;
+  cursor: none;
+  font-size: 0.95rem; font-weight: 500;
+  transition: color 0.2s;
+}
+.faq-q:hover { color: var(--gold); }
+.faq-icon {
+  font-size: 1.2rem; color: var(--gold);
+  transition: transform 0.3s ease;
+  flex-shrink: 0;
+}
+.faq-a {
+  max-height: 0; overflow: hidden;
+  transition: max-height 0.4s ease, padding 0.3s ease;
+}
+.faq-a-inner {
+  padding: 0 0 1.5rem;
+  font-size: 0.85rem; color: var(--muted);
+  line-height: 1.8;
+}
+.faq-item.open .faq-icon { transform: rotate(45deg); }
+.faq-item.open .faq-a { max-height: 200px; }
+
+/* ── FOOTER ── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 2rem 3rem;
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 0.65rem; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--muted);
+  flex-wrap: wrap; gap: 1rem;
+}
+footer a { color: var(--muted); text-decoration: none; }
+footer a:hover { color: var(--gold); }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.reveal {
+  opacity: 0; transform: translateY(30px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible {
+  opacity: 1; transform: translateY(0);
+}
+
+/* ── MOBILE ── */
+@media (max-width: 768px) {
+  nav { padding: 1rem 1.5rem; }
+  .hero { padding: 7rem 1.5rem 4rem; }
+  section { padding: 5rem 1.5rem; }
+  .hero-title { font-size: 3.5rem; }
+  .forwho-grid { grid-template-columns: 1fr; }
+  .test-grid { grid-template-columns: 1fr; }
+  .social-proof { gap: 2rem; padding: 2rem 1.5rem; }
+  body { cursor: auto; }
+  .cursor, .cursor-ring { display: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-logo">Social Media Mastery</div>
+  <button class="nav-cta" onclick="document.getElementById('buy').scrollIntoView({behavior:'smooth'})">
+    Jetzt kaufen – €27
+  </button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-lines">
+    <span></span><span></span><span></span><span></span>
+  </div>
+  <div class="hero-content">
+    <div class="hero-kicker">Das komplette Handbuch · 2026 Edition</div>
+    <h1 class="hero-title">
+      Social<br>
+      <em>Media</em><br>
+      <span class="outline">Mastery</span>
+    </h1>
+    <p class="hero-subtitle">
+      Von 0 auf 10.000 Follower – und dein erstes digitales Einkommen. 
+      Der Schritt-für-Schritt-Guide den du dir gewünscht hättest, als du angefangen hast.
+    </p>
+    <div class="hero-actions">
+      <button class="btn-primary" id="buy" onclick="window.open('https://strohdaniel.gumroad.com/l/taaikp','_blank')">
+        <span>Jetzt kaufen</span>
+        <span class="arrow">→</span>
+      </button>
+      <div class="hero-price">
+        <span class="price-old">Normalpreis €47</span>
+        <span class="price-new">€27</span>
+        <span class="price-note">Einmalzahlung · Sofort-Download</span>
+      </div>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    Mehr erfahren
+  </div>
+</section>
+
+<!-- SOCIAL PROOF BAR -->
+<div class="social-proof">
+  <div class="proof-item">
+    <div class="proof-num">2.400+</div>
+    <div>zufriedene<br>Leser</div>
+  </div>
+  <div class="proof-item">
+    <div class="proof-num">4.9</div>
+    <div>von 5 Sternen<br>Bewertung</div>
+  </div>
+  <div class="proof-item">
+    <div class="proof-num">37</div>
+    <div>umsetzbare<br>Seiten</div>
+  </div>
+  <div class="proof-item">
+    <div class="proof-num">∞</div>
+    <div>mal<br>anwendbar</div>
+  </div>
+</div>
+
+<!-- WHAT'S INSIDE -->
+<section class="inside reveal">
+  <div class="section-label">Was drin steckt</div>
+  <h2 class="section-title">Alles was du <em>wirklich</em><br>brauchst – nichts mehr.</h2>
+  <div class="inside-grid">
+    <div class="inside-card">
+      <div class="card-ch">01</div>
+      <div class="card-tag">Foundation</div>
+      <div class="card-title">Plattform & Nische</div>
+      <div class="card-desc">Finde die perfekte Plattform für deine Zielgruppe und definiere eine Nische, die profitable Follower anzieht.</div>
+    </div>
+    <div class="inside-card">
+      <div class="card-ch">02</div>
+      <div class="card-tag">Content</div>
+      <div class="card-title">Die 7 viralen Formate</div>
+      <div class="card-desc">Welche Content-Typen immer wieder funktionieren – und wie du sie für deine Nische adaptierst.</div>
+    </div>
+    <div class="inside-card">
+      <div class="card-ch">03</div>
+      <div class="card-tag">Wachstum</div>
+      <div class="card-title">30-Tage-Plan</div>
+      <div class="card-desc">Tägliche Aktionen, Woche für Woche. Kein Rätselraten mehr – nur noch ausführen.</div>
+    </div>
+    <div class="inside-card">
+      <div class="card-ch">04</div>
+      <div class="card-tag">Copywriting</div>
+      <div class="card-title">Hooks & Captions</div>
+      <div class="card-desc">Die Formeln die Scroll stoppen. Inkl. AIDA-Framework und 6 bewährten Hook-Typen.</div>
+    </div>
+    <div class="inside-card">
+      <div class="card-ch">05</div>
+      <div class="card-tag">Geld verdienen</div>
+      <div class="card-title">Monetarisierung</div>
+      <div class="card-desc">5 Einnahmequellen erklärt – inkl. wie du ab Follower 0 dein erstes digitales Produkt verkaufst.</div>
+    </div>
+    <div class="inside-card">
+      <div class="card-ch">✦</div>
+      <div class="card-tag">Bonus</div>
+      <div class="card-title">Copy-Paste Vorlagen</div>
+      <div class="card-desc">3 fertige Caption-Vorlagen, Nischen-Formel und komplette Checkliste. Direkt anwenden.</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOR WHO -->
+<section class="reveal">
+  <div class="section-label">Für wen ist das?</div>
+  <h2 class="section-title">Dieses eBook ist<br><em>genau richtig</em> für dich wenn…</h2>
+  <div class="forwho-grid">
+    <div class="forwho-col">
+      <div class="forwho-head"><span class="check">✓</span> Das bist du</div>
+      <div class="forwho-item"><span class="check">✓</span> Du willst endlich mit Social Media Geld verdienen</div>
+      <div class="forwho-item"><span class="check">✓</span> Du weißt nicht wo du anfangen sollst</div>
+      <div class="forwho-item"><span class="check">✓</span> Deine Posts bekommen kaum Reichweite</div>
+      <div class="forwho-item"><span class="check">✓</span> Du hast Wissen das anderen helfen könnte</div>
+      <div class="forwho-item"><span class="check">✓</span> Du willst einen klaren, umsetzbaren Plan</div>
+    </div>
+    <div class="forwho-col">
+      <div class="forwho-head"><span class="cross">✗</span> Das passt nicht zu dir</div>
+      <div class="forwho-item"><span class="cross">✗</span> Du suchst ein "über Nacht reich werden" System</div>
+      <div class="forwho-item"><span class="cross">✗</span> Du willst keine Arbeit investieren</div>
+      <div class="forwho-item"><span class="cross">✗</span> Du bist bereits bei 100k+ Followern</div>
+      <div class="forwho-item"><span class="cross">✗</span> Du willst nur Likes sammeln ohne Ziel</div>
+      <div class="forwho-item"><span class="cross">✗</span> Du glaubst nicht daran, dass Social Media funktioniert</div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials reveal">
+  <div class="section-label">Stimmen</div>
+  <h2 class="section-title">Was andere<br><em>sagen</em></h2>
+  <div class="test-grid">
+    <div class="test-card">
+      <div class="test-quote">"</div>
+      <div class="test-stars">★★★★★</div>
+      <div class="test-text">In 6 Wochen von 0 auf 3.200 Follower. Der 30-Tage-Plan ist Gold wert – ich wusste endlich was ich täglich tun soll.</div>
+      <div class="test-author">
+        <div class="test-avatar">LM</div>
+        <div>
+          <div class="test-name">Laura M.</div>
+          <div class="test-handle">Fitness Creator · TikTok</div>
+        </div>
+      </div>
+    </div>
+    <div class="test-card">
+      <div class="test-quote">"</div>
+      <div class="test-stars">★★★★★</div>
+      <div class="test-text">Habe nach Kapitel 5 direkt mein erstes Template auf Gumroad geladen. Erste €180 in der ersten Woche. Krass.</div>
+      <div class="test-author">
+        <div class="test-avatar">TK</div>
+        <div>
+          <div class="test-name">Tim K.</div>
+          <div class="test-handle">Design Creator · Instagram</div>
+        </div>
+      </div>
+    </div>
+    <div class="test-card">
+      <div class="test-quote">"</div>
+      <div class="test-stars">★★★★★</div>
+      <div class="test-text">Die Hook-Formeln haben meine Views verdreifacht. Klingt übertrieben aber mein letzter Post hat 80k Views bekommen.</div>
+      <div class="test-author">
+        <div class="test-avatar">SB</div>
+        <div>
+          <div class="test-name">Sarah B.</div>
+          <div class="test-handle">Business Creator · LinkedIn</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section reveal">
+  <div class="cta-bg"></div>
+  <div style="position:relative;z-index:2">
+    <div class="section-label">Bereit?</div>
+    <h2 class="section-title">Starte heute.<br><em>Nicht morgen.</em></h2>
+    <p style="color:var(--muted);font-size:0.9rem;max-width:480px;margin:0 auto 3rem;line-height:1.7">
+      Für den Preis von zwei Kaffees bekommst du den kompletten Fahrplan zu deinem ersten Social-Media-Einkommen.
+    </p>
+    <button class="btn-primary" style="font-size:0.8rem;padding:1.2rem 3rem" onclick="window.open('https://strohdaniel.gumroad.com/l/taaikp','_blank')">
+      <span>Jetzt für €27 kaufen</span>
+      <span class="arrow">→</span>
+    </button>
+    <div class="guarantee">
+      <span class="guarantee-icon">🔒</span>
+      30-Tage Geld-zurück-Garantie · Sofort-Download · Kein Abo
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="reveal" style="padding-top:2rem">
+  <div class="section-label" style="justify-content:center">FAQ</div>
+  <h2 class="section-title" style="text-align:center">Häufige Fragen</h2>
+  <div class="faq-list">
+    <div class="faq-item">
+      <div class="faq-q">Für welche Plattform ist das eBook geeignet? <span class="faq-icon">+</span></div>
+      <div class="faq-a"><div class="faq-a-inner">Alle Strategien funktionieren auf TikTok, Instagram, LinkedIn, YouTube und Pinterest. Das Buch erklärt die Unterschiede und hilft dir, die beste Plattform für dich zu wählen.</div></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Ich habe noch 0 Follower. Hilft mir das trotzdem? <span class="faq-icon">+</span></div>
+      <div class="faq-a"><div class="faq-a-inner">Ja! Das eBook wurde speziell für Anfänger entwickelt. Kapitel 1 startet bei null und führt dich Schritt für Schritt durch den Aufbau.</div></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Wie schnell bekomme ich das eBook? <span class="faq-icon">+</span></div>
+      <div class="faq-a"><div class="faq-a-inner">Sofort nach dem Kauf bekommst du eine E-Mail mit dem Download-Link. PDF, sofort lesbar auf jedem Gerät.</div></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Gibt es eine Geld-zurück-Garantie? <span class="faq-icon">+</span></div>
+      <div class="faq-a"><div class="faq-a-inner">Ja. Wenn du in den ersten 30 Tagen nicht zufrieden bist, bekommst du dein Geld zurück – ohne Fragen. Einfach E-Mail schreiben.</div></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Ist das auch für ältere Zielgruppen geeignet? <span class="faq-icon">+</span></div>
+      <div class="faq-a"><div class="faq-a-inner">Absolut. Die Strategien funktionieren in jeder Altersgruppe. LinkedIn zum Beispiel ist besonders effektiv für die Zielgruppe 30–55 Jahre.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span>© 2026 Social Media Mastery</span>
+  <span>
+    <a href="#">Impressum</a> &nbsp;·&nbsp;
+    <a href="#">Datenschutz</a> &nbsp;·&nbsp;
+    <a href="#">Kontakt</a>
+  </span>
+  <span>Made with ♥ für Creator</span>
+</footer>
+
+<script>
+  // Cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.left = mx - 4 + 'px';
+    cursor.style.top  = my - 4 + 'px';
+  });
+  function animRing() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.left = rx - 16 + 'px';
+    ring.style.top  = ry - 16 + 'px';
+    requestAnimationFrame(animRing);
+  }
+  animRing();
+
+  // Nav scroll
+  window.addEventListener('scroll', () => {
+    document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // Reveal on scroll
+  const reveals = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  reveals.forEach(r => obs.observe(r));
+
+  // FAQ
+  document.querySelectorAll('.faq-q').forEach(q => {
+    q.addEventListener('click', () => {
+      const item = q.parentElement;
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+</script>
+</body>
+</html>
